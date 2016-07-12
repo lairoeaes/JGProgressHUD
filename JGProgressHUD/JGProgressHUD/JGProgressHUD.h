@@ -178,6 +178,13 @@
  */
 @property (nonatomic, assign) BOOL voiceOverEnabled;
 
+/**
+ The minimum width of the HUD view.
+ 
+ @b Default: NO
+ */
+@property (nonatomic, assign) BOOL fullWidth;
+
 #if TARGET_OS_IOS
 /**
  A block to be invoked when the HUD view is tapped.

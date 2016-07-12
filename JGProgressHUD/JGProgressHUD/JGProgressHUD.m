@@ -163,6 +163,8 @@ static CGRect keyboardFrame = (CGRect){{0.0f, 0.0f}, {0.0f, 0.0f}};
         
         self.cornerRadius = 10.0;
         
+        self.cornerRadius = 10.0f;
+        self.fullWidth = NO;
 #if TARGET_OS_IOS
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)]];
 #endif
@@ -333,6 +335,11 @@ static CGRect keyboardFrame = (CGRect){{0.0f, 0.0f}, {0.0f, 0.0f}};
     CGSize size = CGSizeZero;
     
     CGFloat width = MIN(self.contentInsets.left + MAX(indicatorFrame.size.width, MAX(labelFrame.size.width, detailFrame.size.width)) + self.contentInsets.right, insetFrame.size.width);
+    
+    // Support full width
+    if (self.fullWidth) {
+        width = _targetView.bounds.size.width;
+    }
     
     CGFloat height = MAX(CGRectGetMaxY(labelFrame), MAX(CGRectGetMaxY(detailFrame), CGRectGetMaxY(indicatorFrame))) + self.contentInsets.bottom;
     
@@ -908,6 +915,16 @@ static UIViewAnimationOptions UIViewAnimationOptionsFromUIViewAnimationCurve(UIV
     _progress = progress;
     
     [self.indicatorView setProgress:progress animated:animated];
+}
+
+- (void)setFullWidth:(BOOL)fullWidth {
+    if (self.fullWidth == fullWidth) {
+        return;
+    }
+    
+    _fullWidth = fullWidth;
+    
+    [self layoutHUD];
 }
 
 #pragma mark - Overrides
